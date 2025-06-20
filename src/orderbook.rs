@@ -5,11 +5,11 @@ use std::collections::BTreeMap;
 pub struct Orderbook {
     best_bid: Option<Level>,
     best_ask: Option<Level>,
-    bids: BTreeMap<u64, Level>,
-    asks: BTreeMap<u64, Level>,
+    pub bids: BTreeMap<u64, Level>,
+    pub asks: BTreeMap<u64, Level>,
     last_updated: u64,
     last_sequence: u64,
-    inv_tick_size: f64,
+    pub inv_tick_size: f64,
 }
 
 impl Orderbook {
