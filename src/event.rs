@@ -21,6 +21,62 @@ impl Event {
     }
 }
 
+/// Tick sizing strategy - zero overhead enum dispatch
+#[derive(Debug, Clone, Copy)]
+pub enum TickSizingStrategy {
+    /// Standard fixed tick size: price * inv_tick_size
+    Fixed,
+    /// Bithumb's piecewise linear tick sizing
+    BithumbPwl,
+    /// Upbit's piecewise linear tick sizing (same as Bithumb for KRW pairs)
+    UpbitPwl,
+}
+
+impl TickSizingStrategy {
+    #[inline(always)]
+    pub fn price_to_tick(&self, price: f64, inv_tick_size: f64) -> u64 {
+        match self {
+            TickSizingStrategy::Fixed => (price * inv_tick_size) as u64,
+            TickSizingStrategy::BithumbPwl => bithumb_price_to_tick(price),
+            TickSizingStrategy::UpbitPwl => upbit_price_to_tick(price),
+        }
+    }
+}
+
+#[inline]
+pub fn bithumb_price_to_tick(price: f64) -> u64 {
+    let (tick_size, offset) = if price >= 1_000_000.0 {
+        (1000.0, 42899)
+    } else if price >= 500_000.0 {
+        (500.0, 41900)
+    } else if price >= 100_000.0 {
+        (100.0, 37900)
+    } else if price >= 50_000.0 {
+        (50.0, 36900)
+    } else if price >= 10_000.0 {
+        (10.0, 32900)
+    } else if price >= 5_000.0 {
+        (5.0, 31900)
+    } else if price >= 100.0 {
+        (1.0, 27900)
+    } else if price >= 10.0 {
+        (0.01, 18000)
+    } else if price >= 1.0 {
+        (0.001, 9000)
+    } else {
+        (0.0001, 0)
+    };
+
+    let inv_tick_size = 1.0 / tick_size;
+    offset + (price * inv_tick_size).round() as u64
+}
+
+#[inline]
+fn upbit_price_to_tick(price: f64) -> u64 {
+    // Upbit uses the same PWL tick sizing as Bithumb for KRW pairs
+    bithumb_price_to_tick(price)
+}
+
 impl<'de> Deserialize<'de> for Event {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
     where
