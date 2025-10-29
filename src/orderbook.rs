@@ -1,7 +1,7 @@
-use crate::{event::Event, level::Level};
+use crate::{event::Event, event::TickSizingStrategy, level::Level};
 use std::collections::BTreeMap;
 
-#[derive(Debug, Default, Clone)]
+#[derive(Debug, Clone)]
 pub struct Orderbook {
     best_bid: Option<Level>,
     best_ask: Option<Level>,
@@ -10,10 +10,21 @@ pub struct Orderbook {
     last_updated: u64,
     last_sequence: u64,
     pub inv_tick_size: f64,
+    pub tick_strategy: TickSizingStrategy,
+}
+
+impl Default for Orderbook {
+    fn default() -> Self {
+        Self::new(1.0)
+    }
 }
 
 impl Orderbook {
     pub fn new(tick_size: f64) -> Self {
+        Self::new_with_strategy(tick_size, TickSizingStrategy::Fixed)
+    }
+
+    pub fn new_with_strategy(tick_size: f64, tick_strategy: TickSizingStrategy) -> Self {
         Self {
             best_bid: None,
             best_ask: None,
@@ -22,7 +33,13 @@ impl Orderbook {
             last_updated: 0,
             last_sequence: 0,
             inv_tick_size: 1.0 / tick_size,
+            tick_strategy,
         }
+    }
+
+    #[inline(always)]
+    pub fn get_price_tick(&self, price: f64) -> u64 {
+        self.tick_strategy.price_to_tick(price, self.inv_tick_size)
     }
 
     #[inline]
@@ -103,7 +120,7 @@ impl Orderbook {
 
     #[inline]
     fn process_lvl2(&mut self, event: Event) {
-        let price_ticks = event.price_ticks(self.inv_tick_size);
+        let price_ticks = self.get_price_tick(event.price);
         match event.is_buy {
             true => {
                 if event.size == 0.0 {
@@ -160,12 +177,12 @@ impl Orderbook {
 
     #[inline]
     fn process_trade(&mut self, event: Event) {
+        let price_ticks = self.get_price_tick(event.price);
+
         let buf = match event.is_buy {
             true => &mut self.bids,
             false => &mut self.asks,
         };
-
-        let price_ticks = event.price_ticks(self.inv_tick_size);
 
         if let Some(level) = buf.get_mut(&price_ticks) {
             if event.size >= level.size {
@@ -212,6 +229,16 @@ impl Orderbook {
         }
 
         None
+    }
+
+    pub fn prune_price_levels_outside_threshold(&mut self, threshold_price: f64, is_buy: bool) {
+        let price_ticks = self.get_price_tick(threshold_price);
+        if is_buy {
+            self.bids.retain(|&tick, _| tick >= price_ticks);
+        }
+        else {
+            self.asks.retain(|&tick, _| tick <= price_ticks);
+        }
     }
 }
 
