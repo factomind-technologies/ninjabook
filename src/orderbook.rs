@@ -235,8 +235,7 @@ impl Orderbook {
         let price_ticks = self.get_price_tick(threshold_price);
         if is_buy {
             self.bids.retain(|&tick, _| tick >= price_ticks);
-        }
-        else {
+        } else {
             self.asks.retain(|&tick, _| tick <= price_ticks);
         }
     }

@@ -45,69 +45,67 @@ impl TickSizingStrategy {
 
 #[inline]
 pub fn bithumb_price_to_tick(price: f64) -> u64 {
-    let (tick_size, offset) = if price >= 1_000_000.0 {
-        (1000.0, 42899)
+    let (inv_tick_size, offset) = if price >= 1_000_000.0 {
+        (1.0 / 1000.0, 42899)
     } else if price >= 500_000.0 {
-        (500.0, 41900)
+        (1.0 / 500.0, 41900)
     } else if price >= 100_000.0 {
-        (100.0, 37900)
+        (1.0 / 100.0, 37900)
     } else if price >= 50_000.0 {
-        (50.0, 36900)
+        (1.0 / 50.0, 36900)
     } else if price >= 10_000.0 {
-        (10.0, 32900)
+        (1.0 / 10.0, 32900)
     } else if price >= 5_000.0 {
-        (5.0, 31900)
+        (1.0 / 5.0, 31900)
     } else if price >= 100.0 {
         (1.0, 27900)
     } else if price >= 10.0 {
-        (0.01, 18000)
+        (1.0 / 0.01, 18000)
     } else if price >= 1.0 {
-        (0.001, 9000)
+        (1.0 / 0.001, 9000)
     } else {
-        (0.0001, 0)
+        (1.0 / 0.0001, 0)
     };
 
-    let inv_tick_size = 1.0 / tick_size;
     offset + (price * inv_tick_size).round() as u64
 }
 
 #[inline]
 fn upbit_price_to_tick(price: f64) -> u64 {
-    let (tick_size, offset) = if price >= 1_000_000.0 {
-        (1000.0, 29_000)
+    let (inv_tick_size, offset) = if price >= 1_000_000.0 {
+        (1.0 / 1000.0, 29_000)
     } else if price >= 500_000.0 {
-        (500.0, 27_000)
+        (1.0 / 500.0, 27_000)
     } else if price >= 100_000.0 {
-        (100.0, 22_000)
+        (1.0 / 100.0, 22_000)
     } else if price >= 50_000.0 {
-        (50.0, 20_000)
+        (1.0 / 50.0, 20_000)
     } else if price >= 10_000.0 {
-        (10.0, 16_000)
+        (1.0 / 10.0, 16_000)
     } else if price >= 5_000.0 {
-        (5.0, 14_000)
+        (1.0 / 5.0, 14_000)
     } else if price >= 1_000.0 {
         (1.0, 9000)
     } else if price >= 100.0 {
         (1.0, 8000)
     } else if price >= 10.0 {
-        (0.1, 7000)
+        (1.0 / 0.1, 7000)
     } else if price >= 1.0 {
-        (0.01, 6000)
+        (1.0 / 0.01, 6000)
     } else if price >= 0.1 {
-        (0.001, 5000)
+        (1.0 / 0.001, 5000)
     } else if price >= 0.01 {
-        (0.0001, 4000)
+        (1.0 / 0.0001, 4000)
     } else if price >= 0.001 {
-        (0.00001, 3000)
+        (1.0 / 0.00001, 3000)
     } else if price >= 0.0001 {
-        (0.000001, 2000)
+        (1.0 / 0.000001, 2000)
     } else if price >= 0.00001 {
-        (0.0000001, 1000)
+        (1.0 / 0.0000001, 1000)
     } else {
-        (0.00000001, 0)
+        (1.0 / 0.00000001, 0)
     };
 
-    let inv_tick_size = 1.0 / tick_size;
     offset + (price * inv_tick_size).round() as u64
 }
 
