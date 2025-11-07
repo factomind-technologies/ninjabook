@@ -231,12 +231,25 @@ impl Orderbook {
         None
     }
 
-    pub fn prune_price_levels_outside_threshold(&mut self, threshold_price: f64, is_buy: bool) {
-        let price_ticks = self.get_price_tick(threshold_price);
-        if is_buy {
-            self.bids.retain(|&tick, _| tick >= price_ticks);
+    // Prune price levels better than (as in best bid/ask) the new best price.
+    // is_bids: apply to bids if true, asks if false
+    pub fn prune_for_new_best_price(&mut self, new_best_price: f64, is_bids: bool) {
+        let best_tick = self.get_price_tick(new_best_price);
+        if is_bids {
+            self.bids.retain(|&tick, _| tick <= best_tick);
         } else {
-            self.asks.retain(|&tick, _| tick <= price_ticks);
+            self.asks.retain(|&tick, _| tick >= best_tick);
+        }
+    }
+
+    // Prune price levels worse than (as in best bid/ask) the new worst price.
+    // is_bids: apply to bids if true, asks if false
+    pub fn prune_for_new_worst_price(&mut self, new_worst_price: f64, is_bids: bool) {
+        let worst_tick = self.get_price_tick(new_worst_price);
+        if is_bids {
+            self.bids.retain(|&tick, _| tick >= worst_tick);
+        } else {
+            self.asks.retain(|&tick, _| tick <= worst_tick);
         }
     }
 }
