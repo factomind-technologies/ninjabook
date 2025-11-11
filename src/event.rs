@@ -36,7 +36,7 @@ impl TickSizingStrategy {
     #[inline(always)]
     pub fn price_to_tick(&self, price: f64, inv_tick_size: f64) -> u64 {
         match self {
-            TickSizingStrategy::Fixed => (price * inv_tick_size) as u64,
+            TickSizingStrategy::Fixed => (price * inv_tick_size).round() as u64,
             TickSizingStrategy::BithumbPwl => bithumb_price_to_tick(price),
             TickSizingStrategy::UpbitPwl => upbit_price_to_tick(price),
         }
