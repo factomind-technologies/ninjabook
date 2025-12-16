@@ -169,7 +169,9 @@ mod tests {
             ob.top_bids(5),
             [Level {
                 price: 16.0,
-                size: 1.0
+                size: 1.0,
+                timestamp: 0,
+                seq: 0
             },]
         );
 
@@ -188,11 +190,15 @@ mod tests {
             [
                 Level {
                     price: 16.0,
-                    size: 1.0
+                    size: 1.0,
+                    timestamp: 0,
+                    seq: 0
                 },
                 Level {
                     price: 7.0,
-                    size: 1.0
+                    size: 1.0,
+                    timestamp: 0,
+                    seq: 0
                 },
             ]
         );
@@ -212,15 +218,21 @@ mod tests {
             [
                 Level {
                     price: 16.0,
-                    size: 1.0
+                    size: 1.0,
+                    timestamp: 0,
+                    seq: 0
                 },
                 Level {
                     price: 10.0,
-                    size: 1.0
+                    size: 1.0,
+                    timestamp: 0,
+                    seq: 0
                 },
                 Level {
                     price: 7.0,
-                    size: 1.0
+                    size: 1.0,
+                    timestamp: 0,
+                    seq: 0
                 },
             ]
         );
@@ -240,19 +252,27 @@ mod tests {
             [
                 Level {
                     price: 16.0,
-                    size: 1.0
+                    size: 1.0,
+                    timestamp: 0,
+                    seq: 0
                 },
                 Level {
                     price: 10.0,
-                    size: 1.0
+                    size: 1.0,
+                    timestamp: 0,
+                    seq: 0
                 },
                 Level {
                     price: 8.0,
-                    size: 1.0
+                    size: 1.0,
+                    timestamp: 0,
+                    seq: 0
                 },
                 Level {
                     price: 7.0,
-                    size: 1.0
+                    size: 1.0,
+                    timestamp: 0,
+                    seq: 0
                 },
             ]
         );
@@ -272,19 +292,27 @@ mod tests {
             [
                 Level {
                     price: 16.0,
-                    size: 1.0
+                    size: 1.0,
+                    timestamp: 0,
+                    seq: 0
                 },
                 Level {
                     price: 10.0,
-                    size: 1.0
+                    size: 1.0,
+                    timestamp: 0,
+                    seq: 0
                 },
                 Level {
                     price: 8.0,
-                    size: 2.0
+                    size: 2.0,
+                    timestamp: 0,
+                    seq: 0
                 },
                 Level {
                     price: 7.0,
-                    size: 1.0
+                    size: 1.0,
+                    timestamp: 0,
+                    seq: 0
                 },
             ]
         );
@@ -304,23 +332,33 @@ mod tests {
             [
                 Level {
                     price: 16.0,
-                    size: 1.0
+                    size: 1.0,
+                    timestamp: 0,
+                    seq: 0
                 },
                 Level {
                     price: 12.0,
-                    size: 1.0
+                    size: 1.0,
+                    timestamp: 0,
+                    seq: 0
                 },
                 Level {
                     price: 10.0,
-                    size: 1.0
+                    size: 1.0,
+                    timestamp: 0,
+                    seq: 0
                 },
                 Level {
                     price: 8.0,
-                    size: 2.0
+                    size: 2.0,
+                    timestamp: 0,
+                    seq: 0
                 },
                 Level {
                     price: 7.0,
-                    size: 1.0
+                    size: 1.0,
+                    timestamp: 0,
+                    seq: 0
                 },
             ]
         );
@@ -340,23 +378,33 @@ mod tests {
             [
                 Level {
                     price: 21.0,
-                    size: 1.0
+                    size: 1.0,
+                    timestamp: 0,
+                    seq: 0
                 },
                 Level {
                     price: 16.0,
-                    size: 1.0
+                    size: 1.0,
+                    timestamp: 0,
+                    seq: 0
                 },
                 Level {
                     price: 12.0,
-                    size: 1.0
+                    size: 1.0,
+                    timestamp: 0,
+                    seq: 0
                 },
                 Level {
                     price: 10.0,
-                    size: 1.0
+                    size: 1.0,
+                    timestamp: 0,
+                    seq: 0
                 },
                 Level {
                     price: 8.0,
-                    size: 2.0
+                    size: 2.0,
+                    timestamp: 0,
+                    seq: 0
                 },
             ]
         );
@@ -376,23 +424,33 @@ mod tests {
             [
                 Level {
                     price: 21.0,
-                    size: 1.0
+                    size: 1.0,
+                    timestamp: 0,
+                    seq: 0
                 },
                 Level {
                     price: 16.0,
-                    size: 1.0
+                    size: 1.0,
+                    timestamp: 0,
+                    seq: 0
                 },
                 Level {
                     price: 12.0,
-                    size: 1.0
+                    size: 1.0,
+                    timestamp: 0,
+                    seq: 0
                 },
                 Level {
                     price: 10.0,
-                    size: 1.0
+                    size: 1.0,
+                    timestamp: 0,
+                    seq: 0
                 },
                 Level {
                     price: 7.0,
-                    size: 1.0
+                    size: 1.0,
+                    timestamp: 0,
+                    seq: 0
                 },
             ]
         );
@@ -412,23 +470,33 @@ mod tests {
             [
                 Level {
                     price: 21.0,
-                    size: 1.0
+                    size: 1.0,
+                    timestamp: 0,
+                    seq: 0
                 },
                 Level {
                     price: 16.0,
-                    size: 1.0
+                    size: 1.0,
+                    timestamp: 0,
+                    seq: 0
                 },
                 Level {
                     price: 12.0,
-                    size: 1.0
+                    size: 1.0,
+                    timestamp: 0,
+                    seq: 0
                 },
                 Level {
                     price: 10.0,
-                    size: 1.0
+                    size: 1.0,
+                    timestamp: 0,
+                    seq: 0
                 },
                 Level {
                     price: 8.0,
-                    size: 10.0
+                    size: 10.0,
+                    timestamp: 0,
+                    seq: 0
                 },
             ]
         );
@@ -448,23 +516,33 @@ mod tests {
             [
                 Level {
                     price: 16.0,
-                    size: 1.0
+                    size: 1.0,
+                    timestamp: 0,
+                    seq: 0
                 },
                 Level {
                     price: 12.0,
-                    size: 1.0
+                    size: 1.0,
+                    timestamp: 0,
+                    seq: 0
                 },
                 Level {
                     price: 10.0,
-                    size: 1.0
+                    size: 1.0,
+                    timestamp: 0,
+                    seq: 0
                 },
                 Level {
                     price: 8.0,
-                    size: 10.0
+                    size: 10.0,
+                    timestamp: 0,
+                    seq: 0
                 },
                 Level {
                     price: 7.0,
-                    size: 1.0
+                    size: 1.0,
+                    timestamp: 0,
+                    seq: 0
                 },
             ]
         );
@@ -488,7 +566,9 @@ mod tests {
             ob.top_asks(5),
             [Level {
                 price: 16.0,
-                size: 1.0
+                size: 1.0,
+                timestamp: 0,
+                seq: 0
             },]
         );
 
@@ -507,11 +587,15 @@ mod tests {
             [
                 Level {
                     price: 7.0,
-                    size: 1.0
+                    size: 1.0,
+                    timestamp: 0,
+                    seq: 0
                 },
                 Level {
                     price: 16.0,
-                    size: 1.0
+                    size: 1.0,
+                    timestamp: 0,
+                    seq: 0
                 },
             ]
         );
@@ -531,15 +615,21 @@ mod tests {
             [
                 Level {
                     price: 7.0,
-                    size: 1.0
+                    size: 1.0,
+                    timestamp: 0,
+                    seq: 0
                 },
                 Level {
                     price: 10.0,
-                    size: 1.0
+                    size: 1.0,
+                    timestamp: 0,
+                    seq: 0
                 },
                 Level {
                     price: 16.0,
-                    size: 1.0
+                    size: 1.0,
+                    timestamp: 0,
+                    seq: 0
                 },
             ]
         );
@@ -559,19 +649,27 @@ mod tests {
             [
                 Level {
                     price: 6.0,
-                    size: 1.0
+                    size: 1.0,
+                    timestamp: 0,
+                    seq: 0
                 },
                 Level {
                     price: 7.0,
-                    size: 1.0
+                    size: 1.0,
+                    timestamp: 0,
+                    seq: 0
                 },
                 Level {
                     price: 10.0,
-                    size: 1.0
+                    size: 1.0,
+                    timestamp: 0,
+                    seq: 0
                 },
                 Level {
                     price: 16.0,
-                    size: 1.0
+                    size: 1.0,
+                    timestamp: 0,
+                    seq: 0
                 },
             ]
         );
@@ -591,23 +689,33 @@ mod tests {
             [
                 Level {
                     price: 6.0,
-                    size: 1.0
+                    size: 1.0,
+                    timestamp: 0,
+                    seq: 0
                 },
                 Level {
                     price: 7.0,
-                    size: 1.0
+                    size: 1.0,
+                    timestamp: 0,
+                    seq: 0
                 },
                 Level {
                     price: 8.0,
-                    size: 2.0
+                    size: 2.0,
+                    timestamp: 0,
+                    seq: 0
                 },
                 Level {
                     price: 10.0,
-                    size: 1.0
+                    size: 1.0,
+                    timestamp: 0,
+                    seq: 0
                 },
                 Level {
                     price: 16.0,
-                    size: 1.0
+                    size: 1.0,
+                    timestamp: 0,
+                    seq: 0
                 },
             ]
         );
@@ -627,23 +735,33 @@ mod tests {
             [
                 Level {
                     price: 6.0,
-                    size: 1.0
+                    size: 1.0,
+                    timestamp: 0,
+                    seq: 0
                 },
                 Level {
                     price: 7.0,
-                    size: 1.0
+                    size: 1.0,
+                    timestamp: 0,
+                    seq: 0
                 },
                 Level {
                     price: 8.0,
-                    size: 2.0
+                    size: 2.0,
+                    timestamp: 0,
+                    seq: 0
                 },
                 Level {
                     price: 10.0,
-                    size: 1.0
+                    size: 1.0,
+                    timestamp: 0,
+                    seq: 0
                 },
                 Level {
                     price: 16.0,
-                    size: 1.0
+                    size: 1.0,
+                    timestamp: 0,
+                    seq: 0
                 },
             ]
         );
@@ -663,23 +781,33 @@ mod tests {
             [
                 Level {
                     price: 7.0,
-                    size: 1.0
+                    size: 1.0,
+                    timestamp: 0,
+                    seq: 0
                 },
                 Level {
                     price: 8.0,
-                    size: 2.0
+                    size: 2.0,
+                    timestamp: 0,
+                    seq: 0
                 },
                 Level {
                     price: 10.0,
-                    size: 1.0
+                    size: 1.0,
+                    timestamp: 0,
+                    seq: 0
                 },
                 Level {
                     price: 16.0,
-                    size: 1.0
+                    size: 1.0,
+                    timestamp: 0,
+                    seq: 0
                 },
                 Level {
                     price: 50.0,
-                    size: 1.0
+                    size: 1.0,
+                    timestamp: 0,
+                    seq: 0
                 },
             ]
         );
@@ -699,19 +827,27 @@ mod tests {
             [
                 Level {
                     price: 7.0,
-                    size: 1.0
+                    size: 1.0,
+                    timestamp: 0,
+                    seq: 0
                 },
                 Level {
                     price: 10.0,
-                    size: 1.0
+                    size: 1.0,
+                    timestamp: 0,
+                    seq: 0
                 },
                 Level {
                     price: 16.0,
-                    size: 1.0
+                    size: 1.0,
+                    timestamp: 0,
+                    seq: 0
                 },
                 Level {
                     price: 50.0,
-                    size: 1.0
+                    size: 1.0,
+                    timestamp: 0,
+                    seq: 0
                 },
             ]
         );
@@ -766,15 +902,21 @@ mod tests {
             [
                 Level {
                     price: 9.0,
-                    size: 0.5
+                    size: 0.5,
+                    timestamp: 0,
+                    seq: 0
                 },
                 Level {
                     price: 10.0,
-                    size: 1.0
+                    size: 1.0,
+                    timestamp: 0,
+                    seq: 0
                 },
                 Level {
                     price: 11.0,
-                    size: 1.0
+                    size: 1.0,
+                    timestamp: 0,
+                    seq: 0
                 },
             ]
         );
@@ -794,11 +936,15 @@ mod tests {
             [
                 Level {
                     price: 10.0,
-                    size: 1.0
+                    size: 1.0,
+                    timestamp: 0,
+                    seq: 0
                 },
                 Level {
                     price: 11.0,
-                    size: 1.0
+                    size: 1.0,
+                    timestamp: 0,
+                    seq: 0
                 },
             ]
         );
@@ -852,7 +998,9 @@ mod tests {
             ob.best_ask.unwrap(),
             Level {
                 price: 10.0,
-                size: 1.0
+                size: 1.0,
+                timestamp: 0,
+                seq: 0
             }
         )
     }
@@ -909,7 +1057,9 @@ mod tests {
             best_bid.unwrap(),
             Level {
                 price: 20.0,
-                size: 1.0
+                size: 1.0,
+                timestamp: 0,
+                seq: 0
             }
         );
 
@@ -917,7 +1067,9 @@ mod tests {
             best_ask.unwrap(),
             Level {
                 price: 21.0,
-                size: 1.0
+                size: 1.0,
+                timestamp: 0,
+                seq: 0
             }
         );
 
@@ -985,7 +1137,9 @@ mod tests {
             ob.best_bid().unwrap(),
             Level {
                 price: 16.0,
-                size: 1.0
+                size: 1.0,
+                timestamp: 0,
+                seq: 0
             }
         );
 
@@ -993,7 +1147,9 @@ mod tests {
             ob.best_ask().unwrap(),
             Level {
                 price: 20.0,
-                size: 1.0
+                size: 1.0,
+                timestamp: 0,
+                seq: 0
             }
         );
     }

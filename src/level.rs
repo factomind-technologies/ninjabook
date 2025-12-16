@@ -6,17 +6,26 @@ use std::fmt::Display;
 pub struct Level {
     pub price: f64,
     pub size: f64,
+    pub timestamp: u64,
+    pub seq: u64,
 }
 
 impl Level {
-    pub fn new(price: f64, size: f64) -> Self {
-        Self { price, size }
+    pub fn new(price: f64, size: f64, timestamp: u64, seq: u64) -> Self {
+        Self {
+            price,
+            size,
+            timestamp,
+            seq,
+        }
     }
 
     pub fn minimum() -> Self {
         Self {
             price: f64::MIN,
             size: 0.0,
+            timestamp: 0,
+            seq: 0,
         }
     }
 
@@ -24,6 +33,8 @@ impl Level {
         Self {
             price: f64::MAX,
             size: 0.0,
+            timestamp: 0,
+            seq: 0,
         }
     }
 }
@@ -63,6 +74,8 @@ impl From<Event> for Level {
         Self {
             price: value.price,
             size: value.size,
+            timestamp: value.timestamp,
+            seq: value.seq,
         }
     }
 }
@@ -73,7 +86,7 @@ mod tests {
 
     #[test]
     fn display_level() {
-        let level = Level::new(1.1, 2.1);
+        let level = Level::new(1.1, 2.1, 0, 0);
 
         assert_eq!(format!("{}", level), "(1.1 : 2.1)")
     }
