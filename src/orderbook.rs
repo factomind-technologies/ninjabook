@@ -131,51 +131,33 @@ impl Orderbook {
     }
 
     fn fm_update_best_bid(&mut self) {
-        while self.bids.len() > 0 {
-            let best_tick = *self.bids.keys().next_back().unwrap();
-            let best_level = self.bids.get(&best_tick).unwrap();
-            if best_level.size == 0.0 {
-                self.bids.remove(&best_tick);
-            } else {
-                self.best_bid = Some(*best_level);
-                break;
+        // jj: must run the gc function separately.
+        // If we prune immediately, we get incorrect results.
+        for level in self.bids.values().rev() {
+            if level.size != 0.0 {
+                self.best_bid = Some(*level);
+                return;
             }
         }
-
-        // jj: if you want to keep the lazy deleted levels:
-        // for level in self.bids.values().rev() {
-        //     if level.size != 0.0 {
-        //         self.best_bid = Some(*level);
-        //         return;
-        //     }
-        // }
     }
 
     fn fm_update_best_ask(&mut self) {
-        while self.asks.len() > 0 {
-            let best_tick = *self.asks.keys().next().unwrap();
-            let best_level = self.asks.get(&best_tick).unwrap();
-            if best_level.size == 0.0 {
-                self.asks.remove(&best_tick);
-            } else {
-                self.best_ask = Some(*best_level);
-                break;
+        // jj: must run the gc function separately.
+        // If we prune immediately, we get incorrect results.
+        for level in self.asks.values() {
+            if level.size != 0.0 {
+                self.best_ask = Some(*level);
+                return;
             }
         }
-
-        // jj: if you want to keep the lazy deleted levels:
-        // for level in self.asks.values() {
-        //     if level.size != 0.0 {
-        //         self.best_ask = Some(*level);
-        //         return;
-        //     }
-        // }
     }
 
     fn fm_process_lvl2_bid(&mut self, event: Event, price_ticks: u64) {
         // Check seq staleness for existing levels
+        // Do NOT use equal here, as we may want to UPDATE a level.
+        // e.g., update data from lazily deleted level (size=0.0), which has same seq.
         if let Some(existing_level) = self.bids.get(&price_ticks) {
-            if event.seq <= existing_level.seq {
+            if event.seq < existing_level.seq {
                 return; // Stale or equal seq, skip
             }
         }
@@ -195,9 +177,11 @@ impl Orderbook {
     }
 
     fn fm_process_lvl2_ask(&mut self, event: Event, price_ticks: u64) {
-        // Check seq staleness for existing levels
+        // Check seq staleness for existing levels.
+        // Do NOT use equal here, as we may want to UPDATE a level.
+        // e.g., update data from lazily deleted level (size=0.0), which has same seq.
         if let Some(existing_level) = self.asks.get(&price_ticks) {
-            if event.seq <= existing_level.seq {
+            if event.seq < existing_level.seq {
                 return; // Stale or equal seq, skip
             }
         }
@@ -285,6 +269,7 @@ impl Orderbook {
             }
             if level.seq < seq {
                 level.size = 0.0;
+                level.seq = seq;
             }
         }
 
@@ -302,10 +287,20 @@ impl Orderbook {
             }
             if level.seq < seq {
                 level.size = 0.0;
+                level.seq = seq;
             }
         }
 
         self.fm_update_best_ask();
+    }
+
+    /// Garbage collect zero-size levels with seq older than the threshold.
+    /// This removes lazy-deleted levels that are no longer needed for staleness checks.
+    pub fn fm_gc_zero_size_levels(&mut self, seq_threshold: u64) {
+        self.bids
+            .retain(|_, level| level.size != 0.0 || level.seq >= seq_threshold);
+        self.asks
+            .retain(|_, level| level.size != 0.0 || level.seq >= seq_threshold);
     }
 }
 
