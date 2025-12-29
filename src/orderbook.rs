@@ -1,6 +1,16 @@
 use crate::{event::Event, event::TickSizingStrategy, level::Level};
 use std::collections::BTreeMap;
 
+const GC_INTERVAL_MS: u64 = 10_000; // 10 seconds
+
+#[inline]
+fn get_timestamp_ms() -> u64 {
+    std::time::SystemTime::now()
+        .duration_since(std::time::UNIX_EPOCH)
+        .expect("System time before UNIX EPOCH!")
+        .as_millis() as u64
+}
+
 #[derive(Debug, Clone)]
 pub struct Orderbook {
     best_bid: Option<Level>,
@@ -11,6 +21,9 @@ pub struct Orderbook {
     last_sequence: u64,
     pub inv_tick_size: f64,
     pub tick_strategy: TickSizingStrategy,
+    // GC tracking: remember seq and local timestamp for periodic cleanup
+    gc_last_seq: u64,
+    gc_last_timestamp_ms: u64,
 }
 
 impl Default for Orderbook {
@@ -34,6 +47,8 @@ impl Orderbook {
             last_sequence: 0,
             inv_tick_size: 1.0 / tick_size,
             tick_strategy,
+            gc_last_seq: 0,
+            gc_last_timestamp_ms: get_timestamp_ms(),
         }
     }
 
@@ -101,6 +116,14 @@ impl Orderbook {
         }
         if event.seq > self.last_sequence {
             self.last_sequence = event.seq;
+        }
+
+        // Periodic GC: when 10+ seconds have passed since last GC, clean up zero-size levels
+        let now_ms = get_timestamp_ms();
+        if now_ms >= self.gc_last_timestamp_ms + GC_INTERVAL_MS {
+            self.fm_gc_zero_size_levels(self.gc_last_seq);
+            self.gc_last_seq = event.seq;
+            self.gc_last_timestamp_ms = now_ms;
         }
     }
 
@@ -307,7 +330,7 @@ impl Orderbook {
 
     /// Garbage collect zero-size levels with seq older than the threshold.
     /// This removes lazy-deleted levels that are no longer needed for staleness checks.
-    pub fn fm_gc_zero_size_levels(&mut self, seq_threshold: u64) {
+    fn fm_gc_zero_size_levels(&mut self, seq_threshold: u64) {
         self.bids
             .retain(|_, level| level.size != 0.0 || level.seq >= seq_threshold);
         self.asks
