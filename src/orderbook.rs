@@ -228,12 +228,23 @@ impl Orderbook {
 
     #[inline]
     pub fn top_bids(&self, n: usize) -> Vec<Level> {
-        self.bids.values().rev().take(n).cloned().collect()
+        self.bids
+            .values()
+            .rev()
+            .filter(|level| level.size != 0.0)
+            .take(n)
+            .cloned()
+            .collect()
     }
 
     #[inline]
     pub fn top_asks(&self, n: usize) -> Vec<Level> {
-        self.asks.values().take(n).cloned().collect()
+        self.asks
+            .values()
+            .filter(|level| level.size != 0.0)
+            .take(n)
+            .cloned()
+            .collect()
     }
 
     #[inline]
@@ -1494,8 +1505,10 @@ mod tests {
             size: 0.0,
         });
 
-        // Level should be removed
-        assert!(!ob.bids.contains_key(&ob.get_price_tick(50.0)));
+        // Level should be lazily deleted (size=0.0, but still present for staleness checks)
+        let level = ob.bids.get(&ob.get_price_tick(50.0)).unwrap();
+        assert_eq!(level.size, 0.0);
+        assert_eq!(level.seq, 200);
     }
 
     #[test]
@@ -1561,7 +1574,7 @@ mod tests {
     }
 
     #[test]
-    fn test_reject_equal_seq() {
+    fn test_accept_equal_seq() {
         let mut ob = Orderbook::new(0.01);
 
         // Insert level with seq=100
@@ -1574,7 +1587,7 @@ mod tests {
             size: 10.0,
         });
 
-        // Try to update with seq=100 (equal)
+        // Update with seq=100 (equal) - accepted to handle lazy deletion cases
         ob.process(Event {
             timestamp: 2000,
             seq: 100,
@@ -1584,9 +1597,9 @@ mod tests {
             size: 20.0,
         });
 
-        // Verify size unchanged (equal seq rejected)
+        // Verify size updated (equal seq accepted)
         let level = ob.bids.get(&ob.get_price_tick(50.0)).unwrap();
-        assert_eq!(level.size, 10.0);
+        assert_eq!(level.size, 20.0);
         assert_eq!(level.seq, 100);
     }
 
