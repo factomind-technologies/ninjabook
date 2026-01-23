@@ -153,7 +153,7 @@ impl Orderbook {
         }
     }
 
-    fn fm_update_best_bid(&mut self) {
+    pub fn fm_update_best_bid(&mut self) {
         // jj: must run the gc function separately.
         // If we prune immediately, we get incorrect results.
         for level in self.bids.values().rev() {
@@ -164,7 +164,7 @@ impl Orderbook {
         }
     }
 
-    fn fm_update_best_ask(&mut self) {
+    pub fn fm_update_best_ask(&mut self) {
         // jj: must run the gc function separately.
         // If we prune immediately, we get incorrect results.
         for level in self.asks.values() {
